@@ -1,0 +1,183 @@
+html,
+body {
+  height: 100%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+*::after, *::before {
+  box-sizing: border-box;
+}
+
+.full-h {
+  height: 100%;
+}
+
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  width: 100%;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0;
+}
+
+.list-wrapper {
+  border: 1px solid red;
+}
+
+.content-wrapper {
+  border: 1px solid blue;
+}
+
+.list, .content {
+  padding: 5px 10px;
+}
+
+@media screen and (min-width: 1024px) {
+  .container {
+    width: 970px;
+  }
+
+  .inner {
+    flex-direction: row;
+  }
+
+  .list-wrapper {
+    width: 35%;
+  }
+  
+  .content-wrapper {
+    width: 65%;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .container {
+    width: 1170px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .container {
+    width: 1240px;
+  }
+}
+
+/* NEW LIST (ONLY CSS) */
+
+.b-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  padding-left: 40px;
+}
+
+.b-list_viewtype_centered {
+  margin: 10px;
+}
+
+.b-list_type_tree .b-list_type_tree {
+  display: none;
+}
+
+.b-list_type_tree .b-list__item {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  color: #676767;
+  line-height: 1.5;
+}
+
+.b-list_type_tree .b-list__item:before {
+  content: "";
+  position: absolute;
+  border-top: 1px solid #676767;
+  border-left: 1px solid #676767;
+  width: 35px;
+  height: 100%;
+  left: -35px;
+  top: 10px;
+}
+
+.b-list_type_tree .b-list__item:after {
+  content: "";
+  position: absolute;
+  border-left: 1px solid #676767;
+  height: 100%;
+  left: -35px;
+  top: -13px;
+  z-index: -1;
+}
+
+.b-list_type_tree .b-list__item:last-child:before {
+  border-left: none;
+}
+
+.b-list_type_tree .b-checkbox {
+  position: absolute;
+  top: -99999px;
+}
+
+.b-list_type_tree .b-checkbox:checked + .b-list_type_tree {
+  display: block;
+}
+
+.b-label {
+  user-select: none;
+}
+
+.b-folder {
+  cursor: pointer;
+  display: inline-block;
+}
+
+.b-folder::before {
+  content: "\271A";
+  color: black;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+/* OLD LIST (WITH JS) */
+
+ul {
+  list-style-type: none;
+}
+
+.caret {
+  cursor: pointer;
+  user-select: none;
+  background-color: rgb(185, 185, 185);
+  border-radius: 2px;
+}
+
+.caret::before {
+  content: "\25B6";
+  color: black;
+  display: inline-block;
+  margin-right: 6px;
+  transition: transform 0.15s;
+}
+
+.caret-down::before {
+  transform: rotate(90deg);
+}
+
+.nested {
+  display: none;
+}
+
+.active {
+  display: block;
+  margin-left: 16px;
+}

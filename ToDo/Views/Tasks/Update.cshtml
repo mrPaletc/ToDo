@@ -1,0 +1,47 @@
+﻿@{
+
+    var curTask = Model.curTask;
+
+    <ul>
+        <form asp-action="Update" asp-controller="Tasks">
+        <li>
+            name:
+            <input type="text" name="name" />
+            @curTask.name
+        </li>
+        <li>
+            status:
+            <input type="text" name="status" />
+            @curTask.status
+        </li>
+        <li>
+            list of Performers:
+            <input type="text" name="listOfPerformers" />
+            @curTask.listOfPerformers
+        </li>
+
+        <li>
+            registration date:
+            <input type="text" name="registrationDate" />
+            @curTask.registrationDate
+        </li>
+
+        <li>
+            planed time:
+            <input type="text" name="planedTime" />
+             @curTask.planedTime
+        </li>
+
+        <li>
+            real time:
+            <input type="text" name="realTime" />
+             @curTask.realTime
+        </li>
+
+        <p>
+            <input type="submit" value="Изменить" />
+        </p>
+        </form>
+    </ul>
+
+}

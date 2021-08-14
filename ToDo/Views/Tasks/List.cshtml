@@ -1,0 +1,49 @@
+﻿
+
+<h3> Задачи </h3>
+<a asp-action="Create">Create task</a>
+<p>
+    <ul>@Html.Partial("_MyTask", Model)</ul>
+</p>
+
+<div class="container full-h">
+    <div class="inner full-h">
+        
+        <div class="content-wrapper">
+            <div class="content">
+                @{
+                    var curTask = Model.curTask;
+
+                                <ul>
+                                    <li>
+                                        name: @curTask.name
+                                    </li>
+                                    <li>
+                                        status: @curTask.status
+                                    </li>
+                                    <li>
+                                        list of Performers: @curTask.listOfPerformers
+                                    </li>
+
+                                    <li>
+                                        registration date: @curTask.registrationDate
+                                    </li>
+
+                                    <li>
+                                        planed time: @curTask.planedTime
+                                    </li>
+
+                                    <li>
+                                        real time: @curTask.realTime
+                                    </li>
+                                    
+                                </ul>
+
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

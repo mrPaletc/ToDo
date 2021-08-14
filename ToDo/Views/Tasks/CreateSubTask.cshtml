@@ -1,0 +1,40 @@
+﻿
+@{
+    var curTask = Model.curTask;
+    <form asp-action="CreateSubTask" asp-controller="Tasks">
+        <p> Master task name: @curTask.name</p>
+        <ul>
+            <li>
+                name:
+                <input type="text" name="name" />
+            </li>
+            <li>
+                status:
+                <input type="text" name="status" />
+            </li>
+            <li>
+                list of Performers:
+                <input type="text" name="listOfPerformers" />
+            </li>
+
+            <li>
+                registration date:
+                <input type="text" name="registrationDate" />
+            </li>
+
+            <li>
+                planed time:
+                <input type="text" name="planedTime" />
+            </li>
+
+            <li>
+                real time:
+                <input type="text" name="realTime" />
+            </li>
+            <p>
+                <input type="submit" value="Создать" />
+            </p>
+
+        </ul>
+    </form>
+}
