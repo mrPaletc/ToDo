@@ -22,8 +22,6 @@ namespace ToDo.Controllers
         {
             MyTasksListViewModel obj = new MyTasksListViewModel();
             obj.allTasks = _allMyTasks.AllMyTasks;
-            obj.curTask = _allMyTasks.AllMyTasks.First();
-            ViewBag.MyTask = _allMyTasks;
             return View(obj);
         }
 
@@ -42,18 +40,19 @@ namespace ToDo.Controllers
         {
             if (masterTaskId != null)
             {
-                MyTasksListViewModel obj = new MyTasksListViewModel();
-                obj.curTask = _allMyTasks.getMyTask((int)masterTaskId);
-
-                if (obj.curTask != null)
-                    return View(obj);
+                if (_allMyTasks.getMyTask((int)masterTaskId) != null)
+                {
+                    TempData["masterID"] = (int)masterTaskId;
+                    return View();
+                }
             }
             return NotFound();
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateSubTask(int masterTaskId, MyTask task)
+        public async Task<IActionResult> CreateSubTask(MyTask task)
         {
+            int masterTaskId = (int)TempData["masterID"];
             MyTask masterTask = _allMyTasks.getMyTask(masterTaskId);
 
             _allMyTasks.Create(task);
@@ -103,7 +102,6 @@ namespace ToDo.Controllers
                 MyTasksListViewModel obj = new MyTasksListViewModel();
                 obj.allTasks = _allMyTasks.AllMyTasks;
                 obj.curTask = _allMyTasks.getMyTask((int)id);
-
                 ViewBag.MyTask = _allMyTasks;
                 return View("List", obj);
 

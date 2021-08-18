@@ -3,18 +3,74 @@
 *@
 @model MyTasksListViewModel
 
-@foreach (var item in Model.allTasks)
+@foreach (MyTask item in Model.allTasks)
 {
+    @*if (item.subTasks == null)
+    {
+        <li class="b-list__item b-list__item_type_child">
+            <label class="b-label" for="@item.name">
+                <i class="ion-document"></i>
+                @item.name
+            </label>
+            <input type="checkbox" class="b-checkbox" id="@item.name" />
+        </li>
+    }
+    else
+    {
+        <ul class="b-list b-list_type_tree">
+            <li class="b-list__item b-list__item_type_parent">
+                <label class="b-label" for="@item.name">
+                    <div class="b-folder"></div>
+                    @item.name
+                </label>
+                <input type="checkbox" class="b-checkbox" id="@item.name" />
+
+
+
+
+            </li>
+
+
+        </ul>
+    }*@
     <li> @item.name</li>
-    <a asp-action="Details" asp-controller="Tasks" asp-route-id="@item.id">Подробнее</a>
-    <a asp-action="Update" asp-controller="Tasks" asp-route-id="@item.id">Изменить</a>
-    <a asp-action="Delete" asp-controller="Tasks" asp-route-id="@item.id">Удалить</a>
+    <a asp-action="Details" asp-controller="Tasks" asp-route-id="@item.id">Подробнее |</a> 
+    <a asp-action="Update" asp-controller="Tasks" asp-route-id="@item.id">Изменить |</a> 
+    <a asp-action="Delete" asp-controller="Tasks" asp-route-id="@item.id">Удалить |</a> 
+    <a asp-action="CreateSubTask" asp-controller="Tasks" asp-route-masterTaskId="@item.id">Создать подзадачу</a>
     <ul>
         @{
             MyTasksListViewModel model = new MyTasksListViewModel();
             model.allTasks = item.subTasks;
         }
-        @Html.Partial("_MyTask", model)
-
+        <partial name="_MyTask" model="model" />
     </ul>
 }
+
+
+@*<li class="b-list__item b-list__item_type_child">
+    <label class="b-label" for="ch6">
+        <i class="ion-document"></i>
+        Child
+    </label>
+    <input type="checkbox" class="b-checkbox" id="ch6" />
+</li>
+
+<ul class="b-list b-list_type_tree">
+</ul>
+
+<ul class="b-list b-list_type_tree">
+    <li class="b-list__item b-list__item_type_parent">
+        <label class="b-label" for="ch2">
+            <div class="b-folder"></div>
+            Parent 2
+        </label>
+        <input type="checkbox" class="b-checkbox" id="ch2" />
+
+
+
+
+    </li>
+
+
+</ul>*@

@@ -16,9 +16,9 @@ namespace ToDo
 {
     public class Startup
     {
-        
 
-        
+
+
 
         private IConfigurationRoot _confString;
         public Startup(IHostEnvironment hostEnv)

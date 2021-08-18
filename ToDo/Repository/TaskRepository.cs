@@ -16,7 +16,14 @@ namespace ToDo.Repository
         {
             this.appDbContent = appDbContent;
         }
-        public IEnumerable<MyTask> AllMyTasks => appDbContent.Task;
+        public IEnumerable<MyTask> AllMyTasks
+        {
+            get
+            {
+                IEnumerable<MyTask> res = appDbContent.Task.Include(c => c.subTasks);
+                return res;
+            }
+        }
         public MyTask getMyTask(int myTaskId) => appDbContent.Task.FirstOrDefault(p => p.id == myTaskId);
 
         public void Create(MyTask task)
