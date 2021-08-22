@@ -66,6 +66,13 @@ namespace ToDo.Controllers
             if (id != null)
             {
                 MyTask task = _allMyTasks.getMyTask((int)id);
+                if (task.subTasks.Count > 0)
+                {
+                    ViewBag.Message = "Нельзя удалить задачу у которой есть подзадачи"; 
+                    MyTasksListViewModel obj = new MyTasksListViewModel();
+                    obj.allTasks = _allMyTasks.AllMyTasks;
+                    return View("List",obj);
+                }
                 if (task != null)
                 {
                     _allMyTasks.Delete((int)id);

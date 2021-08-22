@@ -1,39 +1,38 @@
 ﻿
 @{
     <form asp-action="create" asp-controller="Tasks">
-        <ul>
-            <li>
-                name:
-                <input type="text" name="name" />
-            </li>
-            <li>
-                status:
-                <input type="text" name="status" />
-            </li>
-            <li>
-                list of Performers:
-                <input type="text" name="listOfPerformers" />
-            </li>
+        <div class="form-group">
+            name:
+            <input type="text" name="name" />
+        </div>
+        <div class="form-group">
+            status:
+            <select name="status" asp-items="Html.GetEnumSelectList<MyTask.Status>()">
+            </select>
+        </div>
+        <div class="form-group">
+            list of Performers:
+            <input type="text" name="listOfPerformers" />
+        </div>
 
-            <li>
-                registration date:
-                <input type="text" name="registrationDate" />
-            </li>
+        <div class="form-group">
+            registration date:
+            <input type="date" name="registrationDate" />
+        </div>
 
-            <li>
-                planed time:
-                <input type="text" name="planedTime" />
-            </li>
+        <div class="form-group">
+            planed time:
+            <input type="date" name="planedTime" />
+        </div>
 
-            <li>
-                real time:
-                <input type="text" name="realTime" />
-            </li>
-            <p>
-                <input type="submit" value="Создать" />
-            </p>
+        <div class="form-group">
+            real time:
+            <input type="date" name="realTime" />
+        </div>
+        <p>
+            <input type="submit" class="Primary" value="Создать" />
+        </p>
 
-        </ul>
-    </form>
+</form>
 
 }

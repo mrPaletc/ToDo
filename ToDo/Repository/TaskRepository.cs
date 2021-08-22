@@ -24,8 +24,8 @@ namespace ToDo.Repository
                 return res;
             }
         }
-        public MyTask getMyTask(int myTaskId) => appDbContent.Task.FirstOrDefault(p => p.id == myTaskId);
-
+        public MyTask getMyTask(int myTaskId) => appDbContent.Task.Include(c => c.subTasks).FirstOrDefault(p => p.id == myTaskId);
+            
         public void Create(MyTask task)
         {
             appDbContent.Task.Add(task);

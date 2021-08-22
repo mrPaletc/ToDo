@@ -1,23 +1,16 @@
 ﻿
 
 <h3> Задачи </h3>
-<a asp-action="Create">Создать подзадачу</a>
+<a asp-action="Create">Создать задачу</a>
+<h3>@ViewBag.Message</h3>
 
-<div class="container full-h">
-    <div class="inner full-h">
-        <div class="list-wrapper">
-            <div class="list">
                 <ul class="b-list b-list_type_tree b-list_viewtype_centered">
                         @foreach (MyTask item in Model.allTasks)
                         {
                             if (item.masterTask == null)
                             {
-                            <li class="b-list__item b-list__item_type_parent">
-                                <label class="b-label" for="@item.name">
-                                    <div class="b-folder"></div>
-                                    @item.name
-                                </label>
-                                <input type="checkbox" class="b-checkbox" id="@item.name" />
+                            <li>
+                                @item.name
                                 <a asp-action="Details" asp-controller="Tasks" asp-route-id="@item.id">Подробнее |</a>
                                 <a asp-action="Update" asp-controller="Tasks" asp-route-id="@item.id">Изменить |</a>
                                 <a asp-action="Delete" asp-controller="Tasks" asp-route-id="@item.id">Удалить |</a>
@@ -35,10 +28,7 @@
 
                         }
                 </ul>
-            </div>
-        </div>
-        <div class="content-wrapper">
-            <div class="content">
+
                 @if (Model.curTask != null)
                 {
                     var curTask = Model.curTask;
@@ -69,10 +59,6 @@
                     </ul>
 
                 }
-            </div>
-        </div>
-     </div>
-</div>
 
 
 
