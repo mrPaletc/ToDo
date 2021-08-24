@@ -88,9 +88,11 @@ namespace ToDo.Controllers
             {
                 MyTasksListViewModel obj = new MyTasksListViewModel();
                 obj.curTask = _allMyTasks.getMyTask((int)id);
-
+                TempData["oldStatus"] = obj.curTask.status;
                 if (obj.curTask != null)
+                {
                     return View(obj);
+                }
             }
             return NotFound();
         }
@@ -98,6 +100,15 @@ namespace ToDo.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(MyTask task)
         {
+            MyTask.Status oldStatus = (MyTask.Status)TempData["oldStatus"];
+            ViewBag.UpdateCheck = task.StatusChangeCheck(oldStatus);
+            if (!String.IsNullOrEmpty(ViewBag.UpdateCheck))
+            {
+                MyTasksListViewModel obj = new MyTasksListViewModel();
+                obj.curTask = _allMyTasks.getMyTask(task.id);
+                TempData["oldStatus"] = oldStatus;
+                return View(obj);
+            }
             _allMyTasks.Update(task);
             return RedirectToAction("List");
         }

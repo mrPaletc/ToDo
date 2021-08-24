@@ -22,53 +22,33 @@ namespace ToDo.Models
             this.subTasks = new List<MyTask>();
         }
 
-        //    public List<string> AvailableStatus()
-        //    {
-        //        List<string> availabe = new List<string>();
-        //        switch (status)
-        //        {
-        //            case "Назначена":
-        //                availabe.Add("Выполняется");
-        //                break;
-        //            case "Выполняется":
-        //                if (CanBeFinished())
-        //                {
-        //                    availabe.Add("Завершена");
-        //                }
-        //                availabe.Add("Приостановлена");
-        //                break;
-        //            case "Приостановлена":
-        //                availabe.Add("Выполняется");
-        //                break;
-        //        }
-        //        return availabe;
-        //    }
+        public string StatusChangeCheck(Status oldStatus)
+        {
+            string res = "";
+            List<Status> availableStatus = this.AvailableStatus(oldStatus);
+            if (!availableStatus.Contains(status))
+                res = String.Format("Недопустимо изменять статус с {0} на {1}", oldStatus, status);
+            return res;
+        }
 
-        //    private bool CanBeFinished()
-        //    {
-        //        if (status == "Выполняется")
-        //        {
-        //            if(subTasks.Count > 0)
-        //            {
-        //                foreach (MyTask task in subTasks)
-        //                {
-        //                    if(task.CanBeFinished() == false)
-        //                    {
-        //                        return false;
-        //                    }
-        //                }
-        //            }
-        //            return true;
-        //        }
-        //        return false;
-        //    }
-
-        //    public TimeSpan SubTasksRealTime()
-        //    {
-        //        TimeSpan timeSpan = new TimeSpan();
-        //        return timeSpan;
-        //    }
-        //}
+        public List<Status> AvailableStatus(Status oldStatus)
+        {
+            List<Status> res = new List<Status>();
+            switch (oldStatus)
+            {
+                case Status.Назначена:
+                    res.Add(Status.Выполняется);
+                    break;
+                case Status.Выполняется:
+                    res.Add(Status.Приостановлена);
+                    res.Add(Status.Завершена);
+                    break;
+                case Status.Приостановлена:
+                    res.Add(Status.Выполняется);
+                    break;
+            }
+            return res;
+        }
 
         public enum Status
         {
