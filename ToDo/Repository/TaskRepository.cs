@@ -25,7 +25,6 @@ namespace ToDo.Repository
             }
         }
         public MyTask getMyTask(int myTaskId) => appDbContent.Task.Include(c => c.subTasks).FirstOrDefault(p => p.id == myTaskId);
-            
         public void Create(MyTask task)
         {
             appDbContent.Task.Add(task);
@@ -38,7 +37,6 @@ namespace ToDo.Repository
             appDbContent.Task.Remove(task);
             appDbContent.SaveChanges();
         }
-
         public void Update(MyTask task)
         {
             appDbContent.Task.Update(task);

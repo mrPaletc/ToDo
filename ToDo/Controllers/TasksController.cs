@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -121,10 +123,41 @@ namespace ToDo.Controllers
                 obj.allTasks = _allMyTasks.AllMyTasks;
                 obj.curTask = _allMyTasks.getMyTask((int)id);
                 ViewBag.MyTask = _allMyTasks;
+                ViewBag.SubTasksSumPlanedTime = SubTasksSumPlanedTime(obj.curTask);
+                ViewBag.SubTasksSumRealTime = SubTasksSumRealTime(obj.curTask);
                 return View("List", obj);
 
             }
             return NotFound();
         }
+
+        private TimeSpan SubTasksSumPlanedTime(MyTask masterTask)
+        {
+            TimeSpan res = new TimeSpan();
+            foreach(MyTask task in masterTask.subTasks)
+            {
+                res =  res + task.planedTime;
+                if (task.subTasks.Count > 0)
+                {
+                    res = res + SubTasksSumPlanedTime(task);
+                }
+            }
+            return res;
+        }
+        private TimeSpan SubTasksSumRealTime(MyTask masterTask)
+        {
+            TimeSpan res = new TimeSpan();
+            foreach (MyTask task in masterTask.subTasks)
+            {
+                res = res + task.realTime;
+                if (task.subTasks.Count > 0)
+                {
+                    res = res + SubTasksSumRealTime(task);
+                }
+            }
+            return res;
+        }
+        
+        
     }
 }

@@ -1,4 +1,5 @@
-﻿
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @{
     <form asp-action="create" asp-controller="Tasks">
         <div class="form-group">
@@ -22,17 +23,17 @@
 
         <div class="form-group">
             planed time:
-            <input type="date" name="planedTime" />
+            <input type="time" name="planedTime" />
         </div>
 
         <div class="form-group">
             real time:
-            <input type="date" name="realTime" />
+            <input type="time" name="realTime" />
         </div>
         <p>
             <input type="submit" class="Primary" value="Создать" />
         </p>
 
-</form>
+    </form>
 
 }

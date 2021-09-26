@@ -1,64 +1,72 @@
 ﻿
-
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 <h3> Задачи </h3>
 <a asp-action="Create">Создать задачу</a>
 <h3>@ViewBag.Message</h3>
 
-                <ul class="b-list b-list_type_tree b-list_viewtype_centered">
-                        @foreach (MyTask item in Model.allTasks)
-                        {
-                            if (item.masterTask == null)
-                            {
-                            <li>
-                                @item.name
-                                <a asp-action="Details" asp-controller="Tasks" asp-route-id="@item.id">Подробнее |</a>
-                                <a asp-action="Update" asp-controller="Tasks" asp-route-id="@item.id">Изменить |</a>
-                                <a asp-action="Delete" asp-controller="Tasks" asp-route-id="@item.id">Удалить |</a>
-                                <a asp-action="CreateSubTask" asp-controller="Tasks" asp-route-masterTaskId="@item.id">Создать подзадачу</a>
-                                @{
-                                    MyTasksListViewModel model = new MyTasksListViewModel();
-                                    model.allTasks = item.subTasks;
-                                }
-                                <ul class="b-list b-list_type_tree">
-                                    <partial name="_MyTask" model="model" />
-                                </ul>
-
-                            </li>
-                            }
-
-                        }
+<ul class="b-list b-list_type_tree b-list_viewtype_centered">
+    @foreach (MyTask item in Model.allTasks)
+    {
+        if (item.masterTask == null)
+        {
+            <li>
+                @item.name
+                <a asp-action="Details" asp-controller="Tasks" asp-route-id="@item.id">Подробнее |</a>
+                <a asp-action="Update" asp-controller="Tasks" asp-route-id="@item.id">Изменить |</a>
+                <a asp-action="Delete" asp-controller="Tasks" asp-route-id="@item.id">Удалить |</a>
+                <a asp-action="CreateSubTask" asp-controller="Tasks" asp-route-masterTaskId="@item.id">Создать подзадачу</a>
+                @{
+                    MyTasksListViewModel model = new MyTasksListViewModel();
+                    model.allTasks = item.subTasks;
+                }
+                <ul class="b-list b-list_type_tree">
+                    <partial name="_MyTask" model="model" />
                 </ul>
 
-                @if (Model.curTask != null)
-                {
-                    var curTask = Model.curTask;
+            </li>
+        }
 
-                    <ul>
-                        <li>
-                            name: @curTask.name
-                        </li>
-                        <li>
-                            status: @curTask.status
-                        </li>
-                        <li>
-                            list of Performers: @curTask.listOfPerformers
-                        </li>
+    }
+</ul>
 
-                        <li>
-                            registration date: @curTask.registrationDate
-                        </li>
+@if (Model.curTask != null)
+{
+    var curTask = Model.curTask;
 
-                        <li>
-                            planed time: @curTask.planedTime
-                        </li>
+    <ul>
+        <li>
+            name: @curTask.name
+        </li>
+        <li>
+            status: @curTask.status
+        </li>
+        <li>
+            list of Performers: @curTask.listOfPerformers
+        </li>
 
-                        <li>
-                            real time: @curTask.realTime
-                        </li>
+        <li>
+            registration date: @curTask.registrationDate
+        </li>
 
-                    </ul>
+        <li>
+            planed time: @curTask.planedTime
+        </li>
 
-                }
+        <li>
+            real time: @curTask.realTime
+        </li>
+
+        <li>
+            Sum of subtasks planed time: @ViewBag.SubTasksSumPlanedTime
+        </li>
+
+        <li>
+            Sum of subtasks real time: @ViewBag.SubTasksSumRealTime
+        </li>
+    </ul>
+
+}
 
 
 

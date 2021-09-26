@@ -11,6 +11,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using ToDo.Repository;
 using ToDo.Interfaces;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 
 namespace ToDo
 {
@@ -38,10 +40,29 @@ namespace ToDo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             string connectionString = _confString.GetConnectionString("DefaultConnection");
             services.AddDbContext<AppDbContent>(options => options.UseSqlServer(connectionString));
             services.AddTransient<IMyTask, TaskRepository>();
             services.AddControllersWithViews();
+            
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+            services.AddControllersWithViews()
+                .AddDataAnnotationsLocalization()
+                .AddViewLocalization();
+
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supportedCultures = new[]
+                {
+                    new CultureInfo("en"),
+                    new CultureInfo("ru")
+                };
+
+                options.DefaultRequestCulture = new RequestCulture("ru");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,6 +78,7 @@ namespace ToDo
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseRequestLocalization();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
