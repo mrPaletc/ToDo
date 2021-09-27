@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,8 +35,15 @@ namespace ToDo.Controllers
         [HttpPost]
         public ViewResult Create(MyTask task)
         {
-            _allMyTasks.Create(task);
-            return View();
+            try
+            {
+                _allMyTasks.Create(task);
+                return View();
+            }
+            catch
+            {
+                return View();
+            }
         }
         public async Task<IActionResult> CreateSubTask(int? masterTaskId)
         {
@@ -52,13 +61,21 @@ namespace ToDo.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateSubTask(MyTask task)
         {
-            int masterTaskId = (int)TempData["masterID"];
-            MyTask masterTask = _allMyTasks.getMyTask(masterTaskId);
+            try
+            {
 
-            _allMyTasks.Create(task);
-            masterTask.subTasks.Add(task);
-            _allMyTasks.Update(masterTask);
-            return RedirectToAction("List");
+                int masterTaskId = (int)TempData["masterID"];
+                MyTask masterTask = _allMyTasks.getMyTask(masterTaskId);
+
+                _allMyTasks.Create(task);
+                masterTask.subTasks.Add(task);
+                _allMyTasks.Update(masterTask);
+                return RedirectToAction("List");
+            }
+            catch
+            {
+                return NotFound();
+            }
         }
 
         public async Task<IActionResult> Delete(int? id)
@@ -84,17 +101,24 @@ namespace ToDo.Controllers
 
         public async Task<IActionResult> Update(int? id)
         {
-            if (id != null)
+            try
             {
-                MyTasksListViewModel obj = new MyTasksListViewModel();
-                obj.curTask = _allMyTasks.getMyTask((int)id);
-                TempData["oldStatus"] = obj.curTask.status;
-                if (obj.curTask != null)
+                if (id != null)
                 {
-                    return View(obj);
+                    MyTasksListViewModel obj = new MyTasksListViewModel();
+                    obj.curTask = _allMyTasks.getMyTask((int)id);
+                    TempData["oldStatus"] = obj.curTask.status;
+                    if (obj.curTask != null)
+                    {
+                        return View(obj);
+                    }
                 }
+                return NotFound();
             }
-            return NotFound();
+            catch
+            {
+                return NotFound();
+            }
         }
        
         [HttpPost]
@@ -115,16 +139,55 @@ namespace ToDo.Controllers
 
         public async Task<IActionResult> Details(int? id)
         {
-            if (id != null)
+            try
             {
-                MyTasksListViewModel obj = new MyTasksListViewModel();
-                obj.allTasks = _allMyTasks.AllMyTasks;
-                obj.curTask = _allMyTasks.getMyTask((int)id);
-                ViewBag.MyTask = _allMyTasks;
-                return View("List", obj);
 
+                if (id != null)
+                {
+                    MyTasksListViewModel obj = new MyTasksListViewModel();
+                    obj.allTasks = _allMyTasks.AllMyTasks;
+                    obj.curTask = _allMyTasks.getMyTask((int)id);
+                    ViewBag.MyTask = _allMyTasks;
+                    ViewBag.SubTasksSumPlanedTime = SubTasksSumPlanedTime(obj.curTask);
+                    ViewBag.SubTasksSumRealTime = SubTasksSumRealTime(obj.curTask);
+                    return View("List", obj);
+
+                }
+                return NotFound();
             }
-            return NotFound();
+            catch
+            {
+                return NotFound();
+            }
         }
+
+        private TimeSpan SubTasksSumPlanedTime(MyTask masterTask)
+        {
+            TimeSpan res = new TimeSpan();
+            foreach(MyTask task in masterTask.subTasks)
+            {
+                res =  res + task.planedTime;
+                if (task.subTasks.Count > 0)
+                {
+                    res = res + SubTasksSumPlanedTime(task);
+                }
+            }
+            return res;
+        }
+        private TimeSpan SubTasksSumRealTime(MyTask masterTask)
+        {
+            TimeSpan res = new TimeSpan();
+            foreach (MyTask task in masterTask.subTasks)
+            {
+                res = res + task.realTime;
+                if (task.subTasks.Count > 0)
+                {
+                    res = res + SubTasksSumRealTime(task);
+                }
+            }
+            return res;
+        }
+        
+        
     }
 }

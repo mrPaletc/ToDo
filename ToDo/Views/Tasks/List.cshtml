@@ -1,64 +1,82 @@
 ﻿
-
-<h3> Задачи </h3>
-<a asp-action="Create">Создать задачу</a>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+<h3> @Localizer["Header"] </h3>
+<a  class="btn btn-success" asp-action="Create">@Localizer["Create"]</a>
 <h3>@ViewBag.Message</h3>
-
-                <ul class="b-list b-list_type_tree b-list_viewtype_centered">
-                        @foreach (MyTask item in Model.allTasks)
-                        {
-                            if (item.masterTask == null)
-                            {
-                            <li>
-                                @item.name
-                                <a asp-action="Details" asp-controller="Tasks" asp-route-id="@item.id">Подробнее |</a>
-                                <a asp-action="Update" asp-controller="Tasks" asp-route-id="@item.id">Изменить |</a>
-                                <a asp-action="Delete" asp-controller="Tasks" asp-route-id="@item.id">Удалить |</a>
-                                <a asp-action="CreateSubTask" asp-controller="Tasks" asp-route-masterTaskId="@item.id">Создать подзадачу</a>
-                                @{
-                                    MyTasksListViewModel model = new MyTasksListViewModel();
-                                    model.allTasks = item.subTasks;
-                                }
-                                <ul class="b-list b-list_type_tree">
-                                    <partial name="_MyTask" model="model" />
-                                </ul>
-
-                            </li>
-                            }
-
-                        }
-                </ul>
-
-                @if (Model.curTask != null)
+<div class="container">
+    <div class="row align-items-start">
+        <div class="col">
+            <ul class="b-list b-list_type_tree b-list_viewtype_centered">
+                @foreach (MyTask item in Model.allTasks)
                 {
-                    var curTask = Model.curTask;
+                    if (item.masterTask == null)
+                    {
+                        <li>
+                            @item.name
+                            <a asp-action="Details" class="badge badge-info" asp-controller="Tasks" asp-route-id="@item.id">@Localizer["Details"]</a>
+                            @{
+                                MyTasksListViewModel model = new MyTasksListViewModel();
+                                model.allTasks = item.subTasks;
+                            }
+                            <ul class="b-list b-list_type_tree">
+                                <partial name="_MyTask" model="model" />
+                            </ul>
 
-                    <ul>
-                        <li>
-                            name: @curTask.name
                         </li>
-                        <li>
-                            status: @curTask.status
-                        </li>
-                        <li>
-                            list of Performers: @curTask.listOfPerformers
-                        </li>
-
-                        <li>
-                            registration date: @curTask.registrationDate
-                        </li>
-
-                        <li>
-                            planed time: @curTask.planedTime
-                        </li>
-
-                        <li>
-                            real time: @curTask.realTime
-                        </li>
-
-                    </ul>
+                    }
 
                 }
+            </ul>
+        </div>
+        <div class="col">
+            @if (Model.curTask != null)
+            {
+                var curTask = Model.curTask;
+
+                <div>
+                    <label>
+                        @Localizer["Name"]: @curTask.name
+                    </label><br />
+                    <label>
+                        @Localizer["Status"]: @curTask.status
+                    </label><br />
+                    <label>
+                        @Localizer["ListOfPerformers"]: @curTask.listOfPerformers
+                    </label><br />
+
+                    <label>
+                        @Localizer["RegistrationDate"]: @curTask.registrationDate
+                    </label><br />
+
+                    <label>
+                        @Localizer["PlanedTime"]: @curTask.planedTime
+                    </label><br />
+
+                    <label>
+                        @Localizer["RealTime"]: @curTask.realTime
+                    </label><br />
+
+                    <label>
+                        @Localizer["SumOfSubtasksPlanedTime"]: @ViewBag.SubTasksSumPlanedTime
+                    </label><br />
+
+                    <label>
+                        @Localizer["SumOfSubtasksRealTime"]: @ViewBag.SubTasksSumRealTime
+                    </label><br />
+                            <a asp-action="Update" class="btn btn-primary" asp-controller="Tasks" asp-route-id="@curTask.id">@Localizer["Update"]</a>
+                            <a asp-action="Delete" class="btn btn-danger" asp-controller="Tasks" asp-route-id="@curTask.id">@Localizer["Delete"]</a>
+                            <a asp-action="CreateSubTask" class="btn btn-success" asp-controller="Tasks" asp-route-masterTaskId="@curTask.id">@Localizer["CreateSubtask"]</a>
+
+                </div>
+
+            }
+        </div>
+    </div>
+</div>
+
+
+
 
 
 

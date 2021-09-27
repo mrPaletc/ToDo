@@ -1,39 +1,40 @@
-﻿
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @{
     <form asp-action="CreateSubTask" asp-controller="Tasks">
-        <p> Создание подзадачи</p>
-        
-            <div class="form-group">
-                name:
-                <input type="text" name="name" />
-            </div>
-            <div class="form-group">
-                status:
-                <select name="status" asp-items="Html.GetEnumSelectList<MyTask.Status>()">
-                </select>
-            </div>
-            <div class="form-group">
-                list of Performers:
-                <input type="text" name="listOfPerformers" />
-            </div>
+        <h3>@Localizer["Header"]</h3>
 
-            <div class="form-group">
-                registration date:
-                <input type="date" name="registrationDate" />
-            </div>
+        <div class="form-group">
+            <label>@Localizer["Name"]:</label><br />
+            <input type="text" name="name" />
+        </div>
+        <div class="form-group">
+            <label>@Localizer["Status"]:</label><br />
+            <select name="status" asp-items="Html.GetEnumSelectList<MyTask.Status>()">
+            </select>
+        </div>
+        <div class="form-group">
+            <label>@Localizer["ListOfPerformers"]:</label><br />
+            <input type="text" name="listOfPerformers" />
+        </div>
 
-            <div class="form-group">
-                planed time:
-                <input type="date" name="planedTime" />
-            </div>
+        <div class="form-group">
+            <label>@Localizer["RegistrationDate"]:</label><br />
+            <input type="date" name="registrationDate" />
+        </div>
 
-            <div class="form-group">
-                real time:
-                <input type="date" name="realTime" />
-            </div>
-            <p>
-                <input type="submit" class="Primary" value="Создать" />
-            </p>
+        <div class="form-group">
+            <label>@Localizer["PlanedTime"]:</label><br />
+            <input type="time" name="planedTime" />
+        </div>
+
+        <div class="form-group">
+            <label>@Localizer["RealTime"]:</label><br />
+            <input type="time" name="realTime" />
+        </div>
+        <p>
+            <input type="submit" class="btn btn-success" value="@Localizer["Button"]" />
+        </p>
 
     </form>
 }

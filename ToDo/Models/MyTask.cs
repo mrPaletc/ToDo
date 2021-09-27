@@ -12,8 +12,8 @@ namespace ToDo.Models
         public string listOfPerformers { get; set; }
         public DateTime registrationDate { get; set; }
         public Status status { get; set; }
-        public DateTime planedTime { get; set; }
-        public DateTime realTime { get; set; }
+        public TimeSpan planedTime { get; set; }
+        public TimeSpan realTime { get; set; }
         public List<MyTask> subTasks { get; set; }
         public MyTask masterTask { get; set; }
 
@@ -31,7 +31,7 @@ namespace ToDo.Models
             return res;
         }
 
-        public List<Status> AvailableStatus(Status oldStatus)
+        private List<Status> AvailableStatus(Status oldStatus)
         {
             List<Status> res = new List<Status>();
             switch (oldStatus)

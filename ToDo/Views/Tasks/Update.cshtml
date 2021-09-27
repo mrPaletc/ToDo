@@ -1,36 +1,26 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@{
 
     var curTask = Model.curTask;
     <h3>@ViewBag.UpdateCheck</h3>
     <form asp-action="Update" asp-controller="Tasks">
+        <h3>@Localizer["Header"]</h3>
         <div class="form-group">
-            name:
+            <label>@Localizer["Name"]:</label><br />
             <input type="text" asp-for="curTask.name" name="name" />
         </div>
         <div class="form-group">
-            status:
+            <label>@Localizer["Status"]:</label><br />
             <select asp-for="curTask.status" name="status" asp-items="Html.GetEnumSelectList<MyTask.Status>()">
             </select>
         </div>
         <div class=" form-group">
-            list of Performers:
+            <label>@Localizer["ListOfPerformers"]:</label><br />
             <input type="text" asp-for="curTask.listOfPerformers" name="listOfPerformers" />
         </div>
-        <div class="form-group">
-            registration date:
-            <input type="date" asp-for="curTask.registrationDate" name="registrationDate" />
-        </div>
-        <div class="form-group">
-            planed time:
-            <input type="date" asp-for="curTask.planedTime" name="planedTime" />
-        </div>
-        <div class="form-group">
-            real time:
-            <input type="date" asp-for="curTask.realTime" name="realTime" />
-        </div>
-
         <p>
-            <input type="submit" class="Primary" value="Изменить" />
+            <input type="submit" class="btn btn-success" value="@Localizer["Button"]" />
         </p>
     </form>
 
