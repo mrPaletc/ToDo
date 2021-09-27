@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,23 +25,23 @@ namespace ToDo.Repository
                 return res;
             }
         }
-        public MyTask getMyTask(int myTaskId) => appDbContent.Task.Include(c => c.subTasks).FirstOrDefault(p => p.id == myTaskId);
-        public void Create(MyTask task)
+        public  MyTask getMyTask(int myTaskId) => appDbContent.Task.Include(c => c.subTasks).FirstOrDefault(p => p.id == myTaskId);
+        public async void Create(MyTask task)
         {
             appDbContent.Task.Add(task);
-            appDbContent.SaveChanges();
+            await appDbContent.SaveChangesAsync();
         }
-        public void Delete(int id)
+        public async void Delete(int id)
         {
         MyTask task = getMyTask(id);
-                
+
             appDbContent.Task.Remove(task);
-            appDbContent.SaveChanges();
+            await appDbContent.SaveChangesAsync();
         }
-        public void Update(MyTask task)
+        public async void Update(MyTask task)
         {
             appDbContent.Task.Update(task);
-            appDbContent.SaveChanges();
+            await appDbContent.SaveChangesAsync();
         }
 
 

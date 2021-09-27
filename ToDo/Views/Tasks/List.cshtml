@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 <h3> @Localizer["Header"] </h3>
-<button  class="btn btn-success" asp-action="Create">@Localizer["Create"]</button>
+<a  class="btn btn-success" asp-action="Create">@Localizer["Create"]</a>
 <h3>@ViewBag.Message</h3>
 <div class="container">
     <div class="row align-items-start">
@@ -64,9 +64,9 @@
                     <label>
                         @Localizer["SumOfSubtasksRealTime"]: @ViewBag.SubTasksSumRealTime
                     </label><br />
-                            <button asp-action="Update" class="btn btn-primary" asp-controller="Tasks" asp-route-id="@curTask.id">@Localizer["Update"]</button>
-                            <button asp-action="Delete" class="btn btn-danger" asp-controller="Tasks" asp-route-id="@curTask.id">@Localizer["Delete"]</button>
-                            <button asp-action="CreateSubTask" class="btn btn-success" asp-controller="Tasks" asp-route-masterTaskId="@curTask.id">@Localizer["CreateSubtask"]</button>
+                            <a asp-action="Update" class="btn btn-primary" asp-controller="Tasks" asp-route-id="@curTask.id">@Localizer["Update"]</a>
+                            <a asp-action="Delete" class="btn btn-danger" asp-controller="Tasks" asp-route-id="@curTask.id">@Localizer["Delete"]</a>
+                            <a asp-action="CreateSubTask" class="btn btn-success" asp-controller="Tasks" asp-route-masterTaskId="@curTask.id">@Localizer["CreateSubtask"]</a>
 
                 </div>
 

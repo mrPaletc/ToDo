@@ -31,7 +31,7 @@ namespace ToDo.Models
             return res;
         }
 
-        public List<Status> AvailableStatus(Status oldStatus)
+        private List<Status> AvailableStatus(Status oldStatus)
         {
             List<Status> res = new List<Status>();
             switch (oldStatus)
