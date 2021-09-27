@@ -1,37 +1,39 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 @{
-    <form asp-action="create" asp-controller="Tasks">
+    <form asp-action="Create" asp-controller="Tasks">
+        <h3>@Localizer["Header"]</h3>
+
         <div class="form-group">
-            name:
+            <label>@Localizer["Name"]:</label><br />
             <input type="text" name="name" />
         </div>
         <div class="form-group">
-            status:
+            <label>@Localizer["Status"]:</label><br />
             <select name="status" asp-items="Html.GetEnumSelectList<MyTask.Status>()">
             </select>
         </div>
         <div class="form-group">
-            list of Performers:
+            <label>@Localizer["ListOfPerformers"]:</label><br />
             <input type="text" name="listOfPerformers" />
         </div>
 
         <div class="form-group">
-            registration date:
+            <label>@Localizer["RegistrationDate"]:</label><br />
             <input type="date" name="registrationDate" />
         </div>
 
         <div class="form-group">
-            planed time:
+            <label>@Localizer["PlanedTime"]:</label><br />
             <input type="time" name="planedTime" />
         </div>
 
         <div class="form-group">
-            real time:
+            <label>@Localizer["RealTime"]:</label><br />
             <input type="time" name="realTime" />
         </div>
         <p>
-            <input type="submit" class="Primary" value="Создать" />
+            <input type="submit" class="btn btn-success" value="@Localizer["Button"]" />
         </p>
 
     </form>

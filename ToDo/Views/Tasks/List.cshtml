@@ -1,72 +1,82 @@
 ﻿
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
-<h3> Задачи </h3>
-<a asp-action="Create">Создать задачу</a>
+<h3> @Localizer["Header"] </h3>
+<button  class="btn btn-success" asp-action="Create">@Localizer["Create"]</button>
 <h3>@ViewBag.Message</h3>
+<div class="container">
+    <div class="row align-items-start">
+        <div class="col">
+            <ul class="b-list b-list_type_tree b-list_viewtype_centered">
+                @foreach (MyTask item in Model.allTasks)
+                {
+                    if (item.masterTask == null)
+                    {
+                        <li>
+                            @item.name
+                            <a asp-action="Details" class="badge badge-info" asp-controller="Tasks" asp-route-id="@item.id">@Localizer["Details"]</a>
+                            @{
+                                MyTasksListViewModel model = new MyTasksListViewModel();
+                                model.allTasks = item.subTasks;
+                            }
+                            <ul class="b-list b-list_type_tree">
+                                <partial name="_MyTask" model="model" />
+                            </ul>
 
-<ul class="b-list b-list_type_tree b-list_viewtype_centered">
-    @foreach (MyTask item in Model.allTasks)
-    {
-        if (item.masterTask == null)
-        {
-            <li>
-                @item.name
-                <a asp-action="Details" asp-controller="Tasks" asp-route-id="@item.id">Подробнее |</a>
-                <a asp-action="Update" asp-controller="Tasks" asp-route-id="@item.id">Изменить |</a>
-                <a asp-action="Delete" asp-controller="Tasks" asp-route-id="@item.id">Удалить |</a>
-                <a asp-action="CreateSubTask" asp-controller="Tasks" asp-route-masterTaskId="@item.id">Создать подзадачу</a>
-                @{
-                    MyTasksListViewModel model = new MyTasksListViewModel();
-                    model.allTasks = item.subTasks;
+                        </li>
+                    }
+
                 }
-                <ul class="b-list b-list_type_tree">
-                    <partial name="_MyTask" model="model" />
-                </ul>
+            </ul>
+        </div>
+        <div class="col">
+            @if (Model.curTask != null)
+            {
+                var curTask = Model.curTask;
 
-            </li>
-        }
+                <div>
+                    <label>
+                        @Localizer["Name"]: @curTask.name
+                    </label><br />
+                    <label>
+                        @Localizer["Status"]: @curTask.status
+                    </label><br />
+                    <label>
+                        @Localizer["ListOfPerformers"]: @curTask.listOfPerformers
+                    </label><br />
 
-    }
-</ul>
+                    <label>
+                        @Localizer["RegistrationDate"]: @curTask.registrationDate
+                    </label><br />
 
-@if (Model.curTask != null)
-{
-    var curTask = Model.curTask;
+                    <label>
+                        @Localizer["PlanedTime"]: @curTask.planedTime
+                    </label><br />
 
-    <ul>
-        <li>
-            name: @curTask.name
-        </li>
-        <li>
-            status: @curTask.status
-        </li>
-        <li>
-            list of Performers: @curTask.listOfPerformers
-        </li>
+                    <label>
+                        @Localizer["RealTime"]: @curTask.realTime
+                    </label><br />
 
-        <li>
-            registration date: @curTask.registrationDate
-        </li>
+                    <label>
+                        @Localizer["SumOfSubtasksPlanedTime"]: @ViewBag.SubTasksSumPlanedTime
+                    </label><br />
 
-        <li>
-            planed time: @curTask.planedTime
-        </li>
+                    <label>
+                        @Localizer["SumOfSubtasksRealTime"]: @ViewBag.SubTasksSumRealTime
+                    </label><br />
+                            <button asp-action="Update" class="btn btn-primary" asp-controller="Tasks" asp-route-id="@curTask.id">@Localizer["Update"]</button>
+                            <button asp-action="Delete" class="btn btn-danger" asp-controller="Tasks" asp-route-id="@curTask.id">@Localizer["Delete"]</button>
+                            <button asp-action="CreateSubTask" class="btn btn-success" asp-controller="Tasks" asp-route-masterTaskId="@curTask.id">@Localizer["CreateSubtask"]</button>
 
-        <li>
-            real time: @curTask.realTime
-        </li>
+                </div>
 
-        <li>
-            Sum of subtasks planed time: @ViewBag.SubTasksSumPlanedTime
-        </li>
+            }
+        </div>
+    </div>
+</div>
 
-        <li>
-            Sum of subtasks real time: @ViewBag.SubTasksSumRealTime
-        </li>
-    </ul>
 
-}
+
 
 
 
