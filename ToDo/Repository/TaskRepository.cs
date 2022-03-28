@@ -9,7 +9,7 @@ using ToDo.Models;
 
 namespace ToDo.Repository
 {
-    public class TaskRepository : IMyTask
+    public class TaskRepository : IJob
     {
         private readonly AppDbContent appDbContent;
 
@@ -17,28 +17,28 @@ namespace ToDo.Repository
         {
             this.appDbContent = appDbContent;
         }
-        public IEnumerable<MyTask> AllMyTasks
+        public IEnumerable<Job> AllJobs
         {
             get
             {
-                IEnumerable<MyTask> res = appDbContent.Task.Include(c => c.subTasks);
+                IEnumerable<Job> res = appDbContent.Task.Include(c => c.SubJobs);
                 return res;
             }
         }
-        public  MyTask getMyTask(int myTaskId) => appDbContent.Task.Include(c => c.subTasks).FirstOrDefault(p => p.id == myTaskId);
-        public async void Create(MyTask task)
+        public  Job getJob(int JobId) => appDbContent.Task.Include(c => c.SubJobs).FirstOrDefault(p => p.id == JobId);
+        public  void Create(Job task)
         {
             appDbContent.Task.Add(task);
-            await appDbContent.SaveChangesAsync();
+            appDbContent.SaveChanges();
         }
         public async void Delete(int id)
         {
-        MyTask task = getMyTask(id);
+        Job task = getJob(id);
 
             appDbContent.Task.Remove(task);
             await appDbContent.SaveChangesAsync();
         }
-        public async void Update(MyTask task)
+        public async void Update(Job task)
         {
             appDbContent.Task.Update(task);
             await appDbContent.SaveChangesAsync();

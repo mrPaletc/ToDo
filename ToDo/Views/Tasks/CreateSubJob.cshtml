@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 @{
-    <form asp-action="CreateSubTask" asp-controller="Tasks">
+    <form asp-action="CreateSubJob" asp-controller="Tasks">
         <h3>@Localizer["Header"]</h3>
 
         <div class="form-group">
@@ -10,7 +10,7 @@
         </div>
         <div class="form-group">
             <label>@Localizer["Status"]:</label><br />
-            <select name="status" asp-items="Html.GetEnumSelectList<MyTask.Status>()">
+            <select name="status" asp-items="Html.GetEnumSelectList<Status>()">
             </select>
         </div>
         <div class="form-group">

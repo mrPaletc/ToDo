@@ -120,7 +120,7 @@
   <data name="Create" xml:space="preserve">
     <value>Создать задачу</value>
   </data>
-  <data name="Create subtask" xml:space="preserve">
+  <data name="Create SubJob" xml:space="preserve">
     <value>Создать подзадачу</value>
   </data>
   <data name="Delete" xml:space="preserve">
@@ -150,10 +150,10 @@
   <data name="Status" xml:space="preserve">
     <value>Статус</value>
   </data>
-  <data name="SumOfSubtasksPlanedTime" xml:space="preserve">
+  <data name="SumOfSubJobsPlanedTime" xml:space="preserve">
     <value>Сумма планируемого времени подзадач</value>
   </data>
-  <data name="SumOfSubtasksRealTime" xml:space="preserve">
+  <data name="SumOfSubJobsRealTime" xml:space="preserve">
     <value>Сумма фактическоговремени подзадач</value>
   </data>
   <data name="Update" xml:space="preserve">

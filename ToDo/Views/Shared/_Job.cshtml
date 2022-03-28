@@ -1,21 +1,21 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@model MyTasksListViewModel
+@model JobsListViewModel
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 
-@foreach (MyTask item in Model.allTasks)
+@foreach (Job item in Model.allTasks)
 {
 
     <li> @item.name</li>
     <a asp-action="Details" class="badge badge-info" asp-controller="Tasks" asp-route-id="@item.id">@Localizer["Details"]</a>
     <ul>
         @{
-            MyTasksListViewModel model = new MyTasksListViewModel();
-            model.allTasks = item.subTasks;
+            JobsListViewModel model = new JobsListViewModel();
+            model.allTasks = item.SubJobs;
         }
-        <partial name="_MyTask" model="model" />
+        <partial name="_Job" model="model" />
     </ul>
 }
 

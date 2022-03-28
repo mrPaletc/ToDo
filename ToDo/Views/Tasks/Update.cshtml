@@ -12,7 +12,7 @@
         </div>
         <div class="form-group">
             <label>@Localizer["Status"]:</label><br />
-            <select asp-for="curTask.status" name="status" asp-items="Html.GetEnumSelectList<MyTask.Status>()">
+            <select asp-for="curTask.status" name="status" asp-items="Html.GetEnumSelectList<Status>()">
             </select>
         </div>
         <div class=" form-group">

@@ -6,11 +6,11 @@ using ToDo.Models;
 
 namespace ToDo.ViewModel
 {
-    public class MyTasksListViewModel
+    public class JobsListViewModel
     {
-        public IEnumerable<MyTask> allTasks { get; set; }
+        public IEnumerable<Job> allTasks { get; set; }
 
-        public MyTask curTask { get; set; }
+        public Job curTask { get; set; }
 
     }
 }

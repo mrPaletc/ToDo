@@ -8,7 +8,7 @@
     <div class="row align-items-start">
         <div class="col">
             <ul class="b-list b-list_type_tree b-list_viewtype_centered">
-                @foreach (MyTask item in Model.allTasks)
+                @foreach (Job item in Model.allTasks)
                 {
                     if (item.masterTask == null)
                     {
@@ -16,11 +16,11 @@
                             @item.name
                             <a asp-action="Details" class="badge badge-info" asp-controller="Tasks" asp-route-id="@item.id">@Localizer["Details"]</a>
                             @{
-                                MyTasksListViewModel model = new MyTasksListViewModel();
-                                model.allTasks = item.subTasks;
+                                JobsListViewModel model = new JobsListViewModel();
+                                model.allTasks = item.SubJobs;
                             }
                             <ul class="b-list b-list_type_tree">
-                                <partial name="_MyTask" model="model" />
+                                <partial name="_Job" model="model" />
                             </ul>
 
                         </li>
@@ -58,15 +58,15 @@
                     </label><br />
 
                     <label>
-                        @Localizer["SumOfSubtasksPlanedTime"]: @ViewBag.SubTasksSumPlanedTime
+                        @Localizer["SumOfSubJobsPlanedTime"]: @ViewBag.SubJobsSumPlanedTime
                     </label><br />
 
                     <label>
-                        @Localizer["SumOfSubtasksRealTime"]: @ViewBag.SubTasksSumRealTime
+                        @Localizer["SumOfSubJobsRealTime"]: @ViewBag.SubJobsSumRealTime
                     </label><br />
                             <a asp-action="Update" class="btn btn-primary" asp-controller="Tasks" asp-route-id="@curTask.id">@Localizer["Update"]</a>
                             <a asp-action="Delete" class="btn btn-danger" asp-controller="Tasks" asp-route-id="@curTask.id">@Localizer["Delete"]</a>
-                            <a asp-action="CreateSubTask" class="btn btn-success" asp-controller="Tasks" asp-route-masterTaskId="@curTask.id">@Localizer["CreateSubtask"]</a>
+                            <a asp-action="CreateSubJob" class="btn btn-success" asp-controller="Tasks" asp-route-masterTaskId="@curTask.id">@Localizer["CreateSubJob"]</a>
 
                 </div>
 

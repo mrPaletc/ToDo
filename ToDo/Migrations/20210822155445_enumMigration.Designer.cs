@@ -21,7 +21,7 @@ namespace ToDo.Migrations
                 .HasAnnotation("ProductVersion", "5.0.9")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ToDo.Models.MyTask", b =>
+            modelBuilder.Entity("ToDo.Models.Job", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
@@ -56,18 +56,18 @@ namespace ToDo.Migrations
                     b.ToTable("Task");
                 });
 
-            modelBuilder.Entity("ToDo.Models.MyTask", b =>
+            modelBuilder.Entity("ToDo.Models.Job", b =>
                 {
-                    b.HasOne("ToDo.Models.MyTask", "masterTask")
-                        .WithMany("subTasks")
+                    b.HasOne("ToDo.Models.Job", "masterTask")
+                        .WithMany("SubJobs")
                         .HasForeignKey("masterTaskid");
 
                     b.Navigation("masterTask");
                 });
 
-            modelBuilder.Entity("ToDo.Models.MyTask", b =>
+            modelBuilder.Entity("ToDo.Models.Job", b =>
                 {
-                    b.Navigation("subTasks");
+                    b.Navigation("SubJobs");
                 });
 #pragma warning restore 612, 618
         }

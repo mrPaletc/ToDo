@@ -117,11 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Button" xml:space="preserve">
-    <value>Accept</value>
+  <data name="Create" xml:space="preserve">
+    <value>Create task</value>
+  </data>
+  <data name="Create SubJob" xml:space="preserve">
+    <value>Create SubJob</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
   </data>
   <data name="Header" xml:space="preserve">
-    <value>Create subtask</value>
+    <value>Tasks</value>
   </data>
   <data name="ListOfPerformers" xml:space="preserve">
     <value>List of performers</value>
@@ -140,5 +149,14 @@
   </data>
   <data name="Status" xml:space="preserve">
     <value>Status</value>
+  </data>
+  <data name="SumOfSubJobsPlanedTime" xml:space="preserve">
+    <value>Sum of SubJobs planed time</value>
+  </data>
+  <data name="SumOfSubJobsRealTime" xml:space="preserve">
+    <value>Sum of SubJobs real time</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
   </data>
 </root>

@@ -13,17 +13,17 @@ namespace ToDo.Controllers
 {
     public class TasksController : Controller
     {
-        private IMyTask _allMyTasks;
+        private IJob _allJobs;
 
-        public TasksController(IMyTask iMyTask)
+        public TasksController(IJob iJob)
         {
-            _allMyTasks = iMyTask;
+            _allJobs = iJob;
         }
 
         public ViewResult List()
         {
-            MyTasksListViewModel obj = new MyTasksListViewModel();
-            obj.allTasks = _allMyTasks.AllMyTasks;
+            JobsListViewModel obj = new JobsListViewModel();
+            obj.allTasks = _allJobs.AllJobs;
             return View(obj);
         }
 
@@ -33,11 +33,11 @@ namespace ToDo.Controllers
         }
 
         [HttpPost]
-        public ViewResult Create(MyTask task)
+        public ViewResult Create(Job task)
         {
             try
             {
-                _allMyTasks.Create(task);
+                _allJobs.Create(task);
                 return View();
             }
             catch
@@ -45,11 +45,11 @@ namespace ToDo.Controllers
                 return View();
             }
         }
-        public async Task<IActionResult> CreateSubTask(int? masterTaskId)
+        public async Task<IActionResult> CreateSubJob(int? masterTaskId)
         {
             if (masterTaskId != null)
             {
-                if (_allMyTasks.getMyTask((int)masterTaskId) != null)
+                if (_allJobs.getJob((int)masterTaskId) != null)
                 {
                     TempData["masterID"] = (int)masterTaskId;
                     return View();
@@ -59,17 +59,17 @@ namespace ToDo.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateSubTask(MyTask task)
+        public async Task<IActionResult> CreateSubJob(Job task)
         {
             try
             {
 
                 int masterTaskId = (int)TempData["masterID"];
-                MyTask masterTask = _allMyTasks.getMyTask(masterTaskId);
+                Job masterTask = _allJobs.getJob(masterTaskId);
 
-                _allMyTasks.Create(task);
-                masterTask.subTasks.Add(task);
-                _allMyTasks.Update(masterTask);
+                _allJobs.Create(task);
+                masterTask.SubJobs.Add(task);
+                _allJobs.Update(masterTask);
                 return RedirectToAction("List");
             }
             catch
@@ -82,17 +82,17 @@ namespace ToDo.Controllers
         {
             if (id != null)
             {
-                MyTask task = _allMyTasks.getMyTask((int)id);
-                if (task.subTasks.Count > 0)
+                Job task = _allJobs.getJob((int)id);
+                if (task.SubJobs.Count > 0)
                 {
                     ViewBag.Message = "Нельзя удалить задачу у которой есть подзадачи"; 
-                    MyTasksListViewModel obj = new MyTasksListViewModel();
-                    obj.allTasks = _allMyTasks.AllMyTasks;
+                    JobsListViewModel obj = new JobsListViewModel();
+                    obj.allTasks = _allJobs.AllJobs;
                     return View("List",obj);
                 }
                 if (task != null)
                 {
-                    _allMyTasks.Delete((int)id);
+                    _allJobs.Delete((int)id);
                     return RedirectToAction("List");
                 }
             }
@@ -105,8 +105,8 @@ namespace ToDo.Controllers
             {
                 if (id != null)
                 {
-                    MyTasksListViewModel obj = new MyTasksListViewModel();
-                    obj.curTask = _allMyTasks.getMyTask((int)id);
+                    JobsListViewModel obj = new JobsListViewModel();
+                    obj.curTask = _allJobs.getJob((int)id);
                     TempData["oldStatus"] = obj.curTask.status;
                     if (obj.curTask != null)
                     {
@@ -122,18 +122,18 @@ namespace ToDo.Controllers
         }
        
         [HttpPost]
-        public async Task<IActionResult> Update(MyTask task)
+        public async Task<IActionResult> Update(Job task)
         {
-            MyTask.Status oldStatus = (MyTask.Status)TempData["oldStatus"];
+            Status oldStatus = (Status)TempData["oldStatus"];
             ViewBag.UpdateCheck = task.StatusChangeCheck(oldStatus);
             if (!String.IsNullOrEmpty(ViewBag.UpdateCheck))
             {
-                MyTasksListViewModel obj = new MyTasksListViewModel();
-                obj.curTask = _allMyTasks.getMyTask(task.id);
+                JobsListViewModel obj = new JobsListViewModel();
+                obj.curTask = _allJobs.getJob(task.id);
                 TempData["oldStatus"] = oldStatus;
                 return View(obj);
             }
-            _allMyTasks.Update(task);
+            _allJobs.Update(task);
             return RedirectToAction("List");
         }
 
@@ -144,12 +144,12 @@ namespace ToDo.Controllers
 
                 if (id != null)
                 {
-                    MyTasksListViewModel obj = new MyTasksListViewModel();
-                    obj.allTasks = _allMyTasks.AllMyTasks;
-                    obj.curTask = _allMyTasks.getMyTask((int)id);
-                    ViewBag.MyTask = _allMyTasks;
-                    ViewBag.SubTasksSumPlanedTime = SubTasksSumPlanedTime(obj.curTask);
-                    ViewBag.SubTasksSumRealTime = SubTasksSumRealTime(obj.curTask);
+                    JobsListViewModel obj = new JobsListViewModel();
+                    obj.allTasks = _allJobs.AllJobs;
+                    obj.curTask = _allJobs.getJob((int)id);
+                    ViewBag.Job = _allJobs;
+                    ViewBag.SubJobsSumPlanedTime = SubJobsSumPlanedTime(obj.curTask);
+                    ViewBag.SubJobsSumRealTime = SubJobsSumRealTime(obj.curTask);
                     return View("List", obj);
 
                 }
@@ -161,28 +161,28 @@ namespace ToDo.Controllers
             }
         }
 
-        private TimeSpan SubTasksSumPlanedTime(MyTask masterTask)
+        private TimeSpan SubJobsSumPlanedTime(Job masterTask)
         {
             TimeSpan res = new TimeSpan();
-            foreach(MyTask task in masterTask.subTasks)
+            foreach(Job task in masterTask.SubJobs)
             {
                 res =  res + task.planedTime;
-                if (task.subTasks.Count > 0)
+                if (task.SubJobs.Count > 0)
                 {
-                    res = res + SubTasksSumPlanedTime(task);
+                    res = res + SubJobsSumPlanedTime(task);
                 }
             }
             return res;
         }
-        private TimeSpan SubTasksSumRealTime(MyTask masterTask)
+        private TimeSpan SubJobsSumRealTime(Job masterTask)
         {
             TimeSpan res = new TimeSpan();
-            foreach (MyTask task in masterTask.subTasks)
+            foreach (Job task in masterTask.SubJobs)
             {
                 res = res + task.realTime;
-                if (task.subTasks.Count > 0)
+                if (task.SubJobs.Count > 0)
                 {
-                    res = res + SubTasksSumRealTime(task);
+                    res = res + SubJobsSumRealTime(task);
                 }
             }
             return res;

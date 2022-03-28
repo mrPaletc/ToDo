@@ -43,7 +43,7 @@ namespace ToDo
 
             string connectionString = _confString.GetConnectionString("DefaultConnection");
             services.AddDbContext<AppDbContent>(options => options.UseSqlServer(connectionString));
-            services.AddTransient<IMyTask, TaskRepository>();
+            services.AddTransient<IJob, TaskRepository>();
             services.AddControllersWithViews();
             
             services.AddLocalization(options => options.ResourcesPath = "Resources");

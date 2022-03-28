@@ -5,21 +5,21 @@ using System.Threading.Tasks;
 
 namespace ToDo.Models
 {
-    public class MyTask
+    public class Job
     {
         public int id { get; set; }
         public string name { get; set; }
-        public string listOfPerformers { get; set; }
+        public IEnumerable<Person> listOfPerformers { get; set; }
         public DateTime registrationDate { get; set; }
         public Status status { get; set; }
         public TimeSpan planedTime { get; set; }
         public TimeSpan realTime { get; set; }
-        public List<MyTask> subTasks { get; set; }
-        public MyTask masterTask { get; set; }
+        public List<Job> SubJobs { get; set; }
+        public Job masterTask { get; set; }
 
-        public MyTask()
+        public Job()
         {
-            this.subTasks = new List<MyTask>();
+            this.SubJobs = new List<Job>();
         }
 
         public string StatusChangeCheck(Status oldStatus)
@@ -36,26 +36,27 @@ namespace ToDo.Models
             List<Status> res = new List<Status>();
             switch (oldStatus)
             {
-                case Status.Назначена:
-                    res.Add(Status.Выполняется);
+                case Status.New:
+                    res.Add(Status.Performed);
                     break;
-                case Status.Выполняется:
-                    res.Add(Status.Приостановлена);
-                    res.Add(Status.Завершена);
+                case Status.Performed:
+                    res.Add(Status.Suspended);
+                    res.Add(Status.Completed);
                     break;
-                case Status.Приостановлена:
-                    res.Add(Status.Выполняется);
+                case Status.Suspended:
+                    res.Add(Status.Performed);
                     break;
             }
             return res;
         }
 
-        public enum Status
-        {
-            Назначена = 1,
-            Выполняется = 2,
-            Приостановлена = 3,
-            Завершена = 4
-        }
+    }
+
+    public enum Status
+    {
+        New = 1,
+        Performed = 2,
+        Suspended = 3,
+        Completed = 4
     }
 }

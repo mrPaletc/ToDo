@@ -9,7 +9,7 @@ namespace ToDo
 {
     public class AppDbContent : DbContext
     {
-        public DbSet<MyTask> Task { get; set; }
+        public DbSet<Job> Task { get; set; }
 
         public AppDbContent(DbContextOptions<AppDbContent> options ) : base (options)
         {
